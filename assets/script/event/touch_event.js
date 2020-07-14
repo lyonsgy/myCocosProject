@@ -28,12 +28,17 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
     onTouchMove (t) {
-        console.log('TOUCH_MOVE', t.currentTouch._point.x, t.currentTouch._point.y)
+        console.log('TOUCH_MOVE', t.getLocation())
+        let delta = t.getDelta()
+        this.node.x += delta.x
+        this.node.y += delta.y
     },
     onLoad () {
         // 点击开始
         this.node.on(cc.Node.EventType.TOUCH_START, (t) => {
             console.log('TOUCH_START')
+            // 停止事件冒泡
+            t.stopPropagationImmediate()
         }, this)
         // 按住移动
         this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this)
